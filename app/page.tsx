@@ -129,7 +129,7 @@ function getTargetDate(): Date {
   let target = new Date(year, 3, 21, 22, 0, 0, 0);
 
   if (now > target) {
-    target = new Date(year + 1, 3, 21, 22, 0, 0, 0);
+    target = new Date(year + 1, 3, 21, 23, 0, 0, 0);
   }
 
   return target;
