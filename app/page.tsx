@@ -110,7 +110,8 @@ const galleryImages = [
   "/photos/photo96.jpg",
   "/photos/photo97.jpg",
   "/photos/photo98.jpg",
-  "/photos/photo99.jpg"
+  "/photos/photo99.jpg",
+  "/photos/photo100.jpg"
 ];
 
 function shuffleArray<T>(items: T[]): T[] {
