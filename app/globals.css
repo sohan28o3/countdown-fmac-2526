@@ -304,7 +304,7 @@ button {
   }
 
   .hero-logo {
-    width: clamp(84px, 12vw, 140px);
+    width: clamp(180px, 20vw, 500px);
   }
 
   .countdown-wrap {
