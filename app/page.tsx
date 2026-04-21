@@ -126,7 +126,7 @@ function shuffleArray<T>(items: T[]): T[] {
 function getTargetDate(): Date {
   const now = new Date();
   const year = now.getFullYear();
-  let target = new Date(year, 3, 0, 0, 30, 0, 0);
+  let target = new Date(year, 3, 22, 0, 30, 0, 0);
 
   if (now > target) {
     target = new Date(year + 1, 3, 21, 23, 0, 0, 0);
