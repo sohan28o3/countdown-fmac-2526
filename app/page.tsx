@@ -269,6 +269,7 @@ export default function Home() {
   const [topStripImages, setTopStripImages] = useState<string[]>([]);
   const [bottomStripImages, setBottomStripImages] = useState<string[]>([]);
   const [activePreview, setActivePreview] = useState<string | null>(null);
+  const [showWrap, setShowWrap] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -296,6 +297,20 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, [activePreview]);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    if (time.completed) {
+      const timer = setTimeout(() => {
+        setShowWrap(true);
+      }, 450);
+
+      return () => clearTimeout(timer);
+    }
+
+    setShowWrap(false);
+  }, [mounted, time.completed]);
 
   return (
     <main className="page-shell">
@@ -337,62 +352,80 @@ export default function Home() {
             priority
           />
 
-          {mounted ? (
-            time.completed ? (
-              <div className="showtime-text">It’s Showtime 🎬</div>
-            ) : (
-              <div className="countdown-wrap">
-                <div className="time-block">
-                  <div className="time-number">
-                    {String(time.days).padStart(2, "0")}
-                  </div>
-                  <div className="time-label">DAYS</div>
-                </div>
+          <div className="relative w-full min-h-[120px] sm:min-h-[150px]">
+            <div
+              className={`absolute left-1/2 top-0 w-max max-w-full -translate-x-1/2 transition-all duration-500 ease-out ${
+                time.completed
+                  ? "pointer-events-none opacity-0 -translate-y-3"
+                  : "opacity-100 translate-y-0"
+              }`}
+            >
+              {mounted ? (
+                <>
+                  <div className="countdown-wrap">
+                    <div className="time-block">
+                      <div className="time-number">
+                        {String(time.days).padStart(2, "0")}
+                      </div>
+                      <div className="time-label">DAYS</div>
+                    </div>
 
-                <div className="time-block">
-                  <div className="time-number">
-                    {String(time.hours).padStart(2, "0")}
-                  </div>
-                  <div className="time-label">HOURS</div>
-                </div>
+                    <div className="time-block">
+                      <div className="time-number">
+                        {String(time.hours).padStart(2, "0")}
+                      </div>
+                      <div className="time-label">HOURS</div>
+                    </div>
 
-                <div className="time-block">
-                  <div className="time-number">
-                    {String(time.minutes).padStart(2, "0")}
-                  </div>
-                  <div className="time-label">MINUTES</div>
-                </div>
+                    <div className="time-block">
+                      <div className="time-number">
+                        {String(time.minutes).padStart(2, "0")}
+                      </div>
+                      <div className="time-label">MINUTES</div>
+                    </div>
 
-                <div className="time-block">
-                  <div className="time-number">
-                    {String(time.seconds).padStart(2, "0")}
+                    <div className="time-block">
+                      <div className="time-number">
+                        {String(time.seconds).padStart(2, "0")}
+                      </div>
+                      <div className="time-label">SECONDS</div>
+                    </div>
                   </div>
-                  <div className="time-label">SECONDS</div>
+
+                  <p className="subtle-subtext mt-3">and its over.</p>
+                </>
+              ) : (
+                <div className="countdown-wrap countdown-hidden">
+                  <div className="time-block">
+                    <div className="time-number">00</div>
+                    <div className="time-label">DAYS</div>
+                  </div>
+                  <div className="time-block">
+                    <div className="time-number">00</div>
+                    <div className="time-label">HOURS</div>
+                  </div>
+                  <div className="time-block">
+                    <div className="time-number">00</div>
+                    <div className="time-label">MINUTES</div>
+                  </div>
+                  <div className="time-block">
+                    <div className="time-number">00</div>
+                    <div className="time-label">SECONDS</div>
+                  </div>
                 </div>
-              </div>
-            )
-          ) : (
-            <div className="countdown-wrap countdown-hidden">
-              <div className="time-block">
-                <div className="time-number">00</div>
-                <div className="time-label">DAYS</div>
-              </div>
-              <div className="time-block">
-                <div className="time-number">00</div>
-                <div className="time-label">HOURS</div>
-              </div>
-              <div className="time-block">
-                <div className="time-number">00</div>
-                <div className="time-label">MINUTES</div>
-              </div>
-              <div className="time-block">
-                <div className="time-number">00</div>
-                <div className="time-label">SECONDS</div>
-              </div>
+              )}
             </div>
-          )}
 
-          <p className="subtle-subtext">and its over.</p>
+            <div
+              className={`absolute left-1/2 top-0 w-max max-w-full -translate-x-1/2 transition-all duration-700 ease-out ${
+                showWrap
+                  ? "opacity-100 translate-y-0"
+                  : "pointer-events-none opacity-0 translate-y-3"
+              }`}
+            >
+              <p className="showtime-text">It&apos;s a wrap</p>
+            </div>
+          </div>
         </div>
       </section>
 
